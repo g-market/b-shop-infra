@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  b-shop-server:
+    external_links:
+      - b-shop-database:db
+    image: mentoring-gitlab.gabia.com:5050/mentee/mentee_2023.01/team/g-market/gabia_b_shop_backend:redisson
+    env_file:
+      - .env
+    networks:
+      - b-shop-network
+    restart: always
+    environment:
+      - TZ=Asia/Seoul
+    logging:
+      driver: json-file
+      options:
+        tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+networks:
+  b-shop-network:
+    external: true

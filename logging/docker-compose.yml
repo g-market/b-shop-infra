@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  loki:
+    container_name: b-shop-loki
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config:/etc/loki/local-config.yaml
+      - loki_storage:/loki
+    networks:
+      - b-shop-network
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    container_name: b-shop-promtail
+    image: grafana/promtail:latest
+    volumes:
+      - ../front/nginx/:/var/log/nginx
+      - ./promtail-config:/etc/promtail/local-config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers
+    networks:
+      - b-shop-network
+    command: -config.file=/etc/promtail/local-config.yaml
+
+  grafana:
+    container_name: b-shop-grafana
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - b-shop-network
+    volumes:
+      - grafana_storage:/var/lib/grafana
+
+volumes:
+  grafana_storage: {}
+  loki_storage: {}
+
+networks:
+  b-shop-network:
+    external: true

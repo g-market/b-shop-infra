@@ -1,0 +1,11 @@
+SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
+
+use bshop_db;
+
+CREATE TABLE if not exists revinfo (
+  `rev` int NOT NULL AUTO_INCREMENT,
+  `revtstmp` bigint DEFAULT NULL,
+  PRIMARY KEY (`rev`)
+) COLLATE=utf8mb4_unicode_ci;
+
+SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
